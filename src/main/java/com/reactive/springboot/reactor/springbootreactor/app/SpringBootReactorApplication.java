@@ -23,16 +23,17 @@ public class SpringBootReactorApplication implements CommandLineRunner {
 		//Flux<String> nombres = Flux.just("Jesus","Junior","Carlos","Genaro","Cristhian", "Andres")
 		//		.doOnNext(e -> System.out.println(e));
 		//Factorizado
-		Flux<String> nombres = Flux.just("Jesus","Junior","Carlos","Genaro","Cristhian", "Andres")
-				.doOnNext(System.out::println);
+		Flux<String> nombres = Flux.just("Jesus","Junior","Carlos","","Cristhian", "Andres")
+				.doOnNext((e) -> {
+					if(e.isEmpty()){
+						throw  new RuntimeException("Los nombres no pueden ser vacios");
+					}
+				});
 		//Cada vez que recibimos que nos notifique
 		
 		//Nos subscribismo
 		//nombres.subscribe(e -> log.info(e));
-		nombres.subscribe(log::info);
-		
-		
-		
+		nombres.subscribe(log::info, error -> log.error(error.getMessage()) );
 		
 	}
 }
